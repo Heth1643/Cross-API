@@ -1,0 +1,164 @@
+@{
+  ViewData["Title"] = "Profile";
+}
+<html>
+
+<head>
+  <script src="~/lib/jquery/dist/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+  <script>
+    let email1 = sessionStorage.getItem("email");
+    console.log(email1);
+    $(document).ready(function () {
+
+      $.ajax({
+
+        type: 'Get',
+        contentType: 'Application/json',
+        url: 'https://localhost:7044/api/RegApi/' + email1,
+        success: function (result, status, xhr) {
+          $('#dfname').append(result.fname);
+          $('#dlname').append(result.lname);
+          $('#dadd').append(result.dateadded);
+          $('#dup').append(result.lastupdate);
+          $('#pfname').val(result.fname);
+          $('#plname').val(result.lname);
+          $('#pcno').val(result.cno);
+          $('#pemail').val(result.email);
+          $('#ppass').val(result.password);
+          var new1 = moment(result.dob).format('DD-MM-YYYY');
+          $('#pdob').val(new1);
+          sessionStorage.setItem("id", result.recid);
+          console.log(result.dob);
+
+        }
+ })
+
+    })
+    function edit() {
+      var editid = sessionStorage.getItem("id");
+      $(document).ready(function () {
+       
+
+
+        var get = new Object()
+        var x = $('#pdob').val();
+        var n = x.split('-');
+        get.fname = $('#pfname').val()
+        get.dateadded = $('#dadd').text()
+        get.lname = $('#plname').val()
+        get.cno = $('#pcno').val()
+       
+        get.dob = n[2] + '-' + n[1] + '-' + n[0];
+        get.email = $('#pemail').val()
+        get.password = $('#ppass').val()
+        var cpass = $('#pcpass').val()
+        get.recid = editid;
+        console.log(get.dob);
+        var psw=$('#ppass').val()
+
+
+  if (get.fname != "" && get.lname != "" && get.cno != "" && get.dob != "" && get.email != "" && get.password != "" && cpass != "")
+         {
+         
+          if (get.password == cpass) {
+
+            $.ajax({
+              type: 'Put',
+              data: JSON.stringify(get),
+              contentType: 'Application/json',
+              url: 'https://localhost:7044/api/RegApi',
+              success: function (result, xhr, status) {
+                window.location.replace("https://localhost:7114/login/profile");
+
+
+              }
+
+            })
+          }
+          else {
+            $("#alert1").show();
+          $("#alert1").html("Password & Confirm Password should be same");
+         
+            return false;
+          }
+
+        }
+        
+        else {
+          $("#alert1").show();
+        $("#alert1").html("Please Enter value for Mandotary fields");
+        
+          return false;
+
+        }
+
+
+      })
+
+    }
+  </script>
+</head>
+
+<body>
+
+  <div class="container">
+
+
+
+    <div class="form-row">
+      <h4>Hi <label id="dfname"></label>&nbsp;<label id="dlname"></label></h4><br>
+      <h4>Added on:</h4>
+      <h4 id='dadd'></h4><br>
+      <h4 id='dup'>Last Updated:</h4><br>
+
+      <div class="alert alert-danger text-center fw-bold" style="display: none;" id='alert1'></div>
+
+      <div class="form-group col-md-3">
+        <label for="pfname">First Name</label> <span style="color: red;">*</span>
+        <input type="text" class="form-control" id="pfname" placeholder="First Name">
+
+      </div>
+      <div class="form-group col-md-3">
+        <label for="plname">Last Name</label>
+        <input type="text" class="form-control" id="plname" placeholder="Last Name">
+      </div>
+      <div class="form-group col-md-3">
+        <label for="pcno">Contact No</label> <span style="color: red;">*</span>
+        <input type="number" class="form-control" id="pcno" placeholder="Contact Number">
+      </div>
+      <div class="form-group col-md-3">
+        <label for="pdob">Date Of Birth</label>
+        <input type="text" class="form-control" id="pdob" placeholder="Date Of Birth">
+      </div>
+
+      <div class="form-group col-md-3">
+        <label for="pemail">Email</label> <span style="color: red;">*</span>
+        <input type="email" class="form-control" id="pemail" placeholder="Email">
+      </div>
+      <div class="form-group col-md-3">
+        <label for="ppass">Password</label> <span style="color: red;">*</span>
+        <input type="password" class="form-control" id="ppass" placeholder="Password">
+
+
+      </div>
+      <div class="form-group col-md-3">
+        <label for="pcpass">Password</label> <span style="color: red;">*</span>
+        <input type="password" class="form-control" id="pcpass" placeholder="Confim Password">
+
+
+      </div>
+
+      <button type="submit" class="btn btn-primary mt-3" onclick="edit()">Update</button>
+      <button type="submit" class="btn btn-danger mt-3">Cancel</button>
+      <a class="btn btn-dark mt-3" href="https://localhost:7114/login/Login">Logout</a>
+    </div>
+
+
+  </div>
+
+
+</body>
+
+</html>
+

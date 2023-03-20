@@ -1,0 +1,75 @@
+dotnet add package Microsoft.AspNetCore.Cors --version 2.2.0 
+dotnet add package WebApiContrib.Formatting.Jsonp --version 3.0.2
+
+
+builder.Services.AddCors(p=>p.AddPolicy("corspolicy",builder=>builder.WithOrigins("*").AllowAnyHeader().AllowAnyMethod()));
+ app.UseCors("corspolicy"); 
+var jsonpFormatter = new JsonpMediaTypeFormatter(config.Formatters.JsonFormatter);  
+          config.Formatters.Insert(0, jsonpFormatter);
+
+ // Web API routes  
+           config.EnableCors();  
+
+In controller add Enable CORS attribute in Global level, so that all the action in this controller can be accessed from http://localhost:60766, 
+[EnableCors(origins: "http://localhost:60766", headers: "*", methods: "*")]  
+
+
+
+function Delele(ID) {  
+    var ans = confirm("Are you sure you want to delete this Record?");  
+    if (ans) {  
+        $.ajax({  
+            url: "/Home/Delete/" + ID,  
+            type: "POST",  
+            contentType: "application/json;charset=UTF-8",  
+            dataType: "json",  
+            success: function (result) {  
+                loadData();  
+            },  
+            error: function (errormessage) {  
+                alert(errormessage.responseText);  
+            }  
+        });  
+    }  
+}  
+
+function Delete(id)
+     {
+       
+       var x= confirm("Are you sure to delete this Record?");
+        console.log(id);
+       if(x==true)
+       {
+            $(document).ready(function()
+            {
+              $.ajax(
+                {
+                    type:'POST',
+                    contentType:'application/json',,
+                    url:'https://localhost:7152/api/CrossApi'+id,
+                    dataType: "json",
+                    success:function(result,status,xhr)
+                    {
+                        alert(status);
+                    },
+                    error:function(error)
+                    {
+                        alert(error.responseText);
+                    }
+
+                  
+
+
+
+                }
+              )
+ 
+
+            })      
+ 
+           
+       }
+     
+     }
+
+ @*  *@

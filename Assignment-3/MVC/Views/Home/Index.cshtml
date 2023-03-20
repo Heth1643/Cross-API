@@ -1,0 +1,149 @@
+﻿@{
+  ViewData["Title"] = "Home Page";
+}
+<html>
+
+<head>
+  <script src="~/lib/jquery/dist/jquery.min.js"></script>
+  <script>
+    $(document).ready(function () {
+    $("#signup").click(function(){
+    $("#alert1").hide();
+     var ifname = $("#ifname").val()
+     var ilname = $("#ilname").val()
+     var iemail=$("#iemail").val()
+    var icno = $("#icno").val()
+    var idob = $("#idob").val()
+    var password2 = $("#ipass").val()
+    var password1 = $("#icpass").val()
+ var reg=/^([a-zA-z0-9]+)$/;
+    var pswlen = password2.length;
+     if(ifname=="" || icno=="" || iemail=="" || password2=="" ||password1=="")
+     {
+        $("#alert1").show();
+         $("#alert1").html("Please Enter value for Mandotary fields");
+     
+     
+      return false;
+     }
+      if(!reg.test(password2))
+   {
+  
+    $("#alert1").show();
+     $("#alert1").html("Please Enter Alpha numeric And Special Characters.");
+     
+      return false;
+  } 
+ if(pswlen <6 || pswlen>12)
+    {
+       $("#alert1").show();
+         $("#alert1").html("Password Min Length  6 and Max Length 12");
+     
+       return false;
+      }
+  else
+     {
+       if (password2 == password1) {
+      
+          var get=new Object();
+
+          get.fname=$("#ifname").val()
+          get.lname=$("#ilname").val()
+          get.dob= $("#idob").val()
+          get.cno=$("#icno").val()
+          get.email= $("#iemail").val()
+          get.password= $("#icpass").val()
+          
+           $.ajax({
+           
+           type:'Post',
+           contentType:'Application/json',
+           data:JSON.stringify(get),
+           url:'https://localhost:7044/api/RegApi/PostData',
+           success:function(result,status,xhr)
+           {
+
+              window.location.replace("https://localhost:7114/login/Login");
+
+           }
+
+
+           })
+         
+      }
+      else
+       {
+         $("#alert1").show();
+           $("#alert1").html("Enter char Are diffrent for Password! Please Confirm Password.");
+       
+        return false;
+      
+        
+      }
+
+    }
+ })
+
+    });
+
+    
+  </script>
+
+
+</head>
+
+<body>
+  <div class="container">
+  <div class="alert alert-danger text-center fw-bold" style="display: none;" id='alert1'></div>
+   
+      <div class="form-row">
+        <div class="form-group col-md-3">
+          <label for="ifname">First Name</label> <span style="color: red;">*</span>
+          <input type="text" class="form-control" id="ifname" placeholder="First Name">
+
+        </div>
+        <div class="form-group col-md-3">
+          <label for="ilname">Last Name</label>
+          <input type="text" class="form-control" id="ilname" placeholder="Last Name">
+        </div>
+        <div class="form-group col-md-3">
+          <label for="icno">Contact No</label> <span style="color: red;">*</span>
+          <input type="number" class="form-control" id="icno" placeholder="Contact Number">
+        </div>
+        <div class="form-group col-md-3">
+          <label for="idob">Date Of Birth</label>
+          <input type="Date" class="form-control" id="idob" placeholder="Date Of Birth">
+        </div>
+
+        <div class="form-group col-md-3">
+          <label for="iemail">Email</label> <span style="color: red;">*</span>
+          <input type="email" class="form-control" id="iemail" placeholder="Email">
+        </div>
+        <div class="form-group col-md-3">
+          <label for="ipass">Password</label> <span style="color: red;">*</span>
+          <input type="password" class="form-control" id="ipass" placeholder="Password">
+
+
+        </div>
+        <div class="form-group col-md-3">
+          <label for="icpass">Password</label> <span style="color:red;">*</span>
+          <input type="password" class="form-control" id="icpass" placeholder="Confim Password">
+
+
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3" id="signup">Sign up</button>
+        <button type="submit" class="btn btn-danger mt-3">Cancel</button>
+      </div>
+      <div class="form-group col-md-3 mt-1">
+        <a class="link-primary" asp-action="Login" asp-controller="login">Already Have Account?</a>
+      </div>
+   
+  </div>
+
+
+
+
+</body>
+
+</html>

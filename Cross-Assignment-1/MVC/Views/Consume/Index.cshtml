@@ -1,0 +1,459 @@
+@{
+    ViewData["Title"] = "Index";
+}
+<html>
+
+<head>
+    <title>
+
+    </title>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+  
+    <script>
+    
+
+
+        function Edit(id) {
+
+            $(document).ready(function () {
+
+                $.ajax(
+                    {
+                        type: 'GET',
+                        contentType: 'application/json',
+                        url: 'https://localhost:7152/api/CrossApi/' + id,
+                        success: function (result, status, xhr) {
+
+                            $('#id1').val(result.id);
+                            $('#name1').val(result.name);
+                            $('#sub1').val(result.sub);
+                        }
+                    }
+                )
+            })
+        }
+        //Delete
+        function Delete(id) {
+
+
+            var x = confirm("Are you sure to Delete?")
+
+
+            if (x == true) {
+                $(document).ready(function () {
+                    $.ajax(
+                        {
+                            type: 'DELETE',
+                            contentType: 'application/json',
+
+                            url: 'https://localhost:7152/api/CrossApi?id=' + id,
+
+                            success: function (result, status, xhr) {
+                                window.location.replace("https://localhost:7212/Consume/Index");
+
+                            }
+                        }
+                    )
+                })
+
+
+            }
+        }
+
+        $(document).ready(function () {
+            $("#submit").click(function () {
+
+                var cross = new Object();
+
+                cross.id = $("#id").val();
+                cross.name = $("#name").val();
+                cross.sub = $("#sub").val();
+
+                if (cross.id != "" && cross.name != "" && cross.sub != "") {
+                    $.ajax(
+                        {
+
+                            type: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify(cross),
+
+                            url: 'https://localhost:7152/api/CrossApi',
+                            success: function (result, status, xhr) {
+                                window.location.replace("https://localhost:7212/Consume/Index");
+
+                            }
+
+
+                        }
+                    )
+
+                }
+                else {
+                    alert("All Fields are Mandatory.");
+
+                }
+            })
+            $.ajax({
+
+                type: 'GET',
+                contentType: 'application/json',
+                url: 'https://localhost:7152/api/CrossApi',
+                success: function (result, status, xhr) {
+
+                    $.each(result, function (key, value) {
+                        var rows = "<tr>" +
+                            "<td>" + value.id + "</td>" +
+
+
+                            "<td>" + value.name + "</td>" +
+                            "<td>" + value.sub + "</td>" +
+                            "<td><input type='button' class='btn btn-outline-info' data-bs-toggle='modal' data-bs-target='#exampleModal1' value='Edit' id='edit' onclick='Edit(" + value.id + ")'> <input type='button' class='btn btn-outline-danger' value='Delete' id='delete' onclick='Delete(" + value.id + ")'>" +
+                            "</td>" +
+                            "</tr>";
+                        $("#table1").append(rows);
+                    })
+
+                }
+            })
+
+        })
+        function update() {
+
+            $(document).ready(function () {
+
+
+                var get = new Object();
+
+                get.id = $("#id1").val();
+                get.name = $("#name1").val();
+                get.sub = $("#sub1").val();
+
+                if (get.id != "" && get.name != "" && get.sub != "") {
+                    $.ajax(
+                        {
+
+                            type: 'PUT',
+                            contentType: 'application/json',
+                            data: JSON.stringify(get),
+                            url: 'https://localhost:7152/api/CrossApi',
+                            success: function (result, status, xhr) {
+                                window.location.replace("https://localhost:7212/Consume/Index");
+
+                            }
+
+
+                        }
+                    )
+
+                }
+                else {
+                    alert("All Fields are Mandatory.");
+
+                }
+            })
+
+        }
+        $(document).ready(function () {
+
+            //var myvalue=document.getElementById("id2");
+
+            $("#search").click(function () {
+                var myvalue = document.getElementById("id2").value;
+                var sub=document.getElementById("suball").value;
+                var name=  document.getElementById("nameall").value;
+                var x = document.getElementById("select");
+                var idall= document.getElementById("idall").value;
+                console.log(myvalue);
+                 console.log(name);
+                  console.log(sub);
+                console.log(x);
+                $("#table1").hide();
+                $("#table2").show();
+                
+                if (x.value == "id") {
+                    $("#nameall").hide();
+                         $("#suball").hide();
+                    $.ajax(
+                        {
+
+                            type: 'GET',
+                            contentType: 'application/json',
+                            url: 'https://localhost:7152/api/CrossApi/' + myvalue,
+                            success: function (result, status, xhr) {
+                               
+                                var rows1 = "<tr>" +
+                                    "<td>" + result.id + "</td>" +
+                                    "<td>" + result.name + "</td>" +
+                                    "<td>" + result.sub + "</td>" +
+                                    "<td><input type='button' class='btn btn-outline-info' data-bs-toggle='modal' data-bs-target='#exampleModal1' value='Edit' id='edit' onclick='Edit(" + result.id + ")'> <input type='button' class='btn btn-outline-danger' value='Delete' id='delete' onclick='Delete(" + result.id + ")'>" +
+                                    "</td>" +
+                                    "</tr>";
+
+
+
+
+                                $("#table2").append(rows1);
+                            },
+                        }
+                    )
+                }
+
+                if (x.value == "name") {
+                    $("#nameall").hide();
+                         $("#suball").hide();
+                    $.ajax(
+                        {
+
+                            type: 'GET',
+                            contentType: 'application/json',
+                            url: 'https://localhost:7152/api/CrossApi/name?name=' + myvalue,
+                            success: function (result, status, xhr) {
+                                $.each(result, function (key, value) {
+                                    var rows2 = "<tr>" +
+                                        "<td>" + value.id + "</td>" +
+                                        "<td>" + value.name + "</td>" +
+                                        "<td>" + value.sub + "</td>" +
+                                        "<td><input type='button' class='btn btn-outline-info' data-bs-toggle='modal' data-bs-target='#exampleModal1' value='Edit' id='edit' onclick='Edit(" + value.id + ")'> <input type='button' class='btn btn-outline-danger' value='Delete' id='delete' onclick='Delete(" + value.id + ")'>" +
+                                        "</td>" +
+                                        "</tr>";
+
+                                    $("#table2").append(rows2);
+
+                                })
+
+                            }
+                        }
+                    )
+
+
+                }
+                if (x.value == "sub") {
+                      $("#nameall").hide();
+                         $("#suball").hide();
+                    $.ajax(
+                        {
+
+                            type: 'GET',
+                            contentType: 'application/json',
+                            url: 'https://localhost:7152/api/CrossApi/sub?sub=' + myvalue,
+                            success: function (result, status, xhr) {
+                                $.each(result, function (key, value) {
+                                    var rows3 = "<tr>" +
+                                        "<td>" + value.id + "</td>" +
+                                        "<td>" + value.name + "</td>" +
+                                        "<td>" + value.sub + "</td>" +
+                                        "<td><input type='button' class='btn btn-outline-info' data-bs-toggle='modal' data-bs-target='#exampleModal1' value='Edit' id='edit' onclick='Edit(" + value.id + ")'> <input type='button' class='btn btn-outline-danger' value='Delete' id='delete' onclick='Delete(" + value.id + ")'>" +
+                                        "</td>" +
+                                        "</tr>";
+
+                                    $("#table2").append(rows3);
+
+                                })
+
+                            }
+                        }
+                    )
+
+                }
+                if(x.value=="All")
+                {
+                    $.ajax(
+                        {
+
+                            type: 'GET',
+                            contentType: 'application/json',
+                            url:'https://localhost:7152/api/CrossApi/SearchAll?id='+idall+'&name='+name+'&sub='+sub,
+                            success: function (result, status, xhr) {
+                                $.each(result, function (key, value) {
+                                    var rows4 = "<tr>" +
+                                        "<td>" + value.id + "</td>" +
+                                        "<td>" + value.name + "</td>" +
+                                        "<td>" + value.sub + "</td>" +
+                                        "<td><input type='button' class='btn btn-outline-info' data-bs-toggle='modal' data-bs-target='#exampleModal1' value='Edit' id='edit' onclick='Edit(" + value.id + ")'> <input type='button' class='btn btn-outline-danger' value='Delete' id='delete' onclick='Delete(" + value.id + ")'>" +
+                                        "</td>" +
+                                        "</tr>";
+
+                                    $("#table2").append(rows4);
+
+                                })
+
+                            }
+                        }
+                    )
+
+                    
+                   
+
+              }
+
+
+            })
+        })
+        function reset() {
+            window.location.replace("https://localhost:7212/Consume/Index");
+        }
+        function select1()
+        {
+            var x=document.getElementById("select");
+            if(x.value=="All")
+            {
+              document.getElementById("suball").style.display="block";
+               document.getElementById("nameall").style.display="block";
+                document.getElementById("idall").style.display="block";
+                 document.getElementById("id2").style.display="none";
+                }
+                else
+                {
+                    document.getElementById("suball").style.display="none";
+                   document.getElementById("nameall").style.display="none";
+                    document.getElementById("idall").style.display="none";
+                      document.getElementById("id2").style.display="block";
+              
+                }
+               
+        }
+    </script>
+</head>
+
+<body>
+    <div style="display: flex; float: right; margin-bottom: 5px;">
+        <button type="button" class="btn btn-outline-dark " data-bs-toggle="modal" data-bs-target="#exampleModal3">
+            Search
+        </button>
+        &nbsp;
+        <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            New Record
+        </button>
+    </div>
+    <table id="table1" class="table table-dark text-center">
+        <thead>
+            <th>Id</th>
+            <th>name</th>
+            <th>Sub</th>
+            <th>Action</th>
+
+        </thead>
+        <tbody class="table-success" id="tbody">
+            </tr>
+
+
+        </tbody>
+    </table>
+
+    <table id="table2" class="table table-dark text-center" style="display: none;">
+        <thead>
+            <th>Id</th>
+            <th>name</th>
+            <th>Sub</th>
+            <th>Action</th>
+
+        </thead>
+        <tbody class="table-success">
+          
+
+
+        </tbody>
+
+    </table>
+    <div class="alert-danger" id="tfoot"></div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Insert Data</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="col mb-3">
+                        <input type="text" class="form-control" placeholder="Id" aria-label="Id" id="id">
+                    </div>
+                    <div class="col mb-3">
+                        <input type="text" class="form-control" placeholder="name" aria-label="name" id="name">
+                    </div>
+                    <div class="col mb-3">
+                        <input type="text" class="form-control" placeholder="sub" aria-label="sub" id="sub">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-outline-success" id="submit">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Update Data</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="col mb-3">
+                        <input type="text" class="form-control" placeholder="Id" aria-label="Id" id="id1" disabled>
+                    </div>
+                    <div class="col mb-3">
+                        <input type="text" class="form-control" placeholder="name" aria-label="name" id="name1">
+                    </div>
+                    <div class="col mb-3">
+                        <input type="text" class="form-control" placeholder="sub" aria-label="sub" id="sub1">
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"
+                        id="reset">Close</button>
+                    <button type="button" class="btn btn-outline-success" id="Update" onclick="update()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Searching</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="col mb-3">
+                        <label class="fw-bold">Search By</label>
+                        <select id="select" class="w-75" onchange="select1()">
+
+                            <option value="id">ID</option>
+                            <option value="name">Name</option>
+                            <option value="sub">Subject</option>
+                             <option value="All">Search All</option>
+
+                        </select>
+                    </div>
+                    <div class="col mt-5 mb-3">
+                        <input type="text" class="form-control" aria-label="Id" id="id2">
+                    </div>
+                    <div class="col mb-3">
+                        <input type="text" class="form-control" placeholder="Id" aria-label="Id" id="idall" style="display: none;">
+                    </div>
+                     <div class="col mb-3">
+                        <input type="text" class="form-control" placeholder="name" aria-label="name" id="nameall" style="display: none;">
+                    </div>
+                    <div class="col mb-3">
+                        <input type="text" class="form-control" placeholder="sub" aria-label="sub" id="suball" style="display: none;">
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"
+                        onclick="reset()">Close</button>
+                    <button type="button" class="btn btn-outline-success" id="search">Search</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

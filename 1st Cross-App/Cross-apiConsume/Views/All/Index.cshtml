@@ -1,0 +1,39 @@
+@{
+    ViewData["Title"] = "Index";
+}
+
+<html>
+
+<head>
+    <title></title>
+    
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script type="Text/javascript">
+
+     $(document).ready(function(){
+        $("#a1").click(function(){
+        $.ajax({
+             url:"https://localhost:7083/api/MyApi",
+             type:'GET',
+             contentType:'application/json',
+             success:function(result , status ,xhr){
+            console.log(result);
+               $('#p1').append(result);
+             },
+             Error:function(Error){
+                alert('Called Failed');
+             }
+        });
+
+     })});
+
+
+</script>
+</head>
+
+<body>
+    <a class="btn btn-outline-danger" id="a1">click</a>
+    <div id="p1"></div>
+</body>
+
+</html>

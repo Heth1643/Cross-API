@@ -1,0 +1,12 @@
+D:\learning\Dotnet\Cross-Api\.net Assignment-1\viewmodel\bin\Debug\net6.0\viewmodel.deps.json
+D:\learning\Dotnet\Cross-Api\.net Assignment-1\viewmodel\bin\Debug\net6.0\viewmodel.dll
+D:\learning\Dotnet\Cross-Api\.net Assignment-1\viewmodel\bin\Debug\net6.0\viewmodel.pdb
+D:\learning\Dotnet\Cross-Api\.net Assignment-1\viewmodel\obj\Debug\net6.0\viewmodel.csproj.AssemblyReference.cache
+D:\learning\Dotnet\Cross-Api\.net Assignment-1\viewmodel\obj\Debug\net6.0\viewmodel.GeneratedMSBuildEditorConfig.editorconfig
+D:\learning\Dotnet\Cross-Api\.net Assignment-1\viewmodel\obj\Debug\net6.0\viewmodel.AssemblyInfoInputs.cache
+D:\learning\Dotnet\Cross-Api\.net Assignment-1\viewmodel\obj\Debug\net6.0\viewmodel.AssemblyInfo.cs
+D:\learning\Dotnet\Cross-Api\.net Assignment-1\viewmodel\obj\Debug\net6.0\viewmodel.csproj.CoreCompileInputs.cache
+D:\learning\Dotnet\Cross-Api\.net Assignment-1\viewmodel\obj\Debug\net6.0\viewmodel.dll
+D:\learning\Dotnet\Cross-Api\.net Assignment-1\viewmodel\obj\Debug\net6.0\refint\viewmodel.dll
+D:\learning\Dotnet\Cross-Api\.net Assignment-1\viewmodel\obj\Debug\net6.0\viewmodel.pdb
+D:\learning\Dotnet\Cross-Api\.net Assignment-1\viewmodel\obj\Debug\net6.0\ref\viewmodel.dll

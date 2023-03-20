@@ -1,0 +1,76 @@
+@{
+    ViewData["Title"] = "Login";
+}
+<html>
+  <head>
+ <script src="~/lib/jquery/dist/jquery.min.js"></script>
+ <script>
+  $(document).ready(function ()
+  {
+      
+     $("#signin").click(function (){
+
+
+       
+      var eml=$("#lemail").val()
+      var pass=$("#lpass").val()
+       var get=new Object();
+
+       if(eml=="" || pass=="")
+       {
+         $("#alert1").show();
+            $("#alert1").html("Please enter Email and password");
+       }
+    
+       get.email=$("#lemail").val()
+       get.password=$("#lpass").val()
+
+       if(get.email!=null && get.password!=null)
+       {
+        sessionStorage.setItem("email", get.email);
+       $.ajax(
+              {
+                type:'POST',
+                contentType:'Application/json',
+                data:JSON.stringify(get),
+                url:'https://localhost:7044/api/RegApi/login',
+                success:function(result,status,xhr)
+                {
+           window.location.replace("https://localhost:7114/login/profile");
+                
+                }
+
+              }
+            )
+        }
+         
+   })
+     })
+ </script>
+  </head>
+  <body>
+     <div class="container">
+      <div class="alert alert-danger text-center fw-bold"  style="display: none;" id='alert1'></div>
+   
+    
+  <div class="form-row">
+   <div class="form-group col-md-3">
+      <label for="lemail">Email</label> <span style="color: red;">*</span>
+      <input type="email" class="form-control" id="lemail" placeholder="Email">
+    </div>
+    <div class="form-group col-md-3">
+      <label for="lpass">Password</label> <span style="color: red;">*</span>
+      <input type="password" class="form-control" id="lpass" placeholder="Password">
+    </div>
+    <button type="submit" class="btn btn-primary mt-2" id="signin">Sign In</button>
+ <button type="submit" class="btn btn-danger mt-2">Cancel</button>
+   </div>
+   <div class="form-group col-md-3 mt-1">
+   <a class="link-primary " asp-action="Index" asp-controller="Home">Don't Have Account?</a>
+
+   </div>
+       
+  </div>
+   </body>
+</html>
+ 
